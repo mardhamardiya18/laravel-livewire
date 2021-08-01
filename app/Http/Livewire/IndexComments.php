@@ -27,13 +27,14 @@ class IndexComments extends Component
     // ==============================
 
 
-
+    // ==== show comment ==========
     function mount()
     {
         $getComments = Comment::latest()->get();
         $this->comments = $getComments;
     }
 
+    // ==== Add comment ==========
     function addComment()
     {
         $this->validate();
@@ -48,6 +49,14 @@ class IndexComments extends Component
         $this->comments->prepend($createComment);
 
         $this->inputComment = null;
+    }
+
+    // ====remove comment ===========
+    function remove($idComment)
+    {
+        $getidComment = Comment::find($idComment);
+        $getidComment->delete();
+        $this->comments = $this->comments->except($idComment);
     }
 
     public function render()

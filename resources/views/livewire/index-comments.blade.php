@@ -16,9 +16,12 @@
 
    @foreach ($comments as $comment)
    <div class="card mt-5 shadow-sm" style="width: 83%">
-    <div class="d-flex toast-header justify-content-between">
-        <h5 class="card-title">{{$comment->creator->name}}</h5>
-        <small>{{$comment->created_at->diffForHumans()}}</small>
+    <div class="toast-header d-flex justify-content-between align-items-center">
+        <div class="title d-flex">
+            <h5 class="card-title">{{$comment->creator->name}}</h5>
+            <p class="mx-3 fs-6" style="color: rgb(173, 173, 173)">{{$comment->created_at->diffForHumans()}}</p>
+        </div>
+        <i class="fas fa-times" style="cursor: pointer" wire:click="remove({{$comment->id}})"></i>
     </div>
 
     <div class="toast-body">
