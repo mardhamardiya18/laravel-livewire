@@ -15,7 +15,12 @@ class IndexComments extends Component
 
     // ==== validation =====
     protected $rules = [
-        'inputComment' => 'required'
+        'inputComment' => 'required|max:10',
+    ];
+
+    protected $messages = [
+        'inputComment.required' => 'Komentar wajib diisi!😠',
+        'inputComment.max' => 'Eits...kebanyakan bos ngomennya😝',
     ];
 
     public function updated($propertyName)
@@ -47,6 +52,11 @@ class IndexComments extends Component
         );
 
         $this->comments->prepend($createComment);
+        $this->dispatchBrowserEvent('swal:modal', [
+            'type' => 'success',
+            'title' => 'Comment was posted! 👍',
+            'text' => ''
+        ]);
 
         $this->inputComment = null;
     }
@@ -57,6 +67,11 @@ class IndexComments extends Component
         $getidComment = Comment::find($idComment);
         $getidComment->delete();
         $this->comments = $this->comments->except($idComment);
+        $this->dispatchBrowserEvent('swal:modal', [
+            'type' => 'success',
+            'title' => 'Comment was deleted! 👍',
+            'text' => ''
+        ]);
     }
 
     public function render()
