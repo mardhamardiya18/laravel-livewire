@@ -1,5 +1,11 @@
 <div class="container mt-5">
    <h3 class="mb-5">Comments App</h3>
+
+    <section class="d-flex flex-column">
+        <img src="{{$image}}" width="200" alt="">
+        <input type="file" id="image" wire:change="$emit('fileChoosen')"> 
+    </section>
+
       <form wire:submit.prevent="addComment">
           <div class="row">
             <div class="col-sm-10">
@@ -15,7 +21,7 @@
       
 
    @foreach ($comments as $comment)
-   <div class="card mt-5 shadow-sm" style="width: 83%">
+   <div class="card mt-3 shadow-sm" style="width: 83%">
     <div class="toast-header d-flex justify-content-between align-items-center">
         <div class="title d-flex">
             <h5 class="card-title">{{$comment->creator->name}}</h5>
@@ -31,4 +37,20 @@
     </div>    
    </div>
    @endforeach
+   <div class="pagination mt-4">
+    {{$comments->links()}}
+   </div>
+  
 </div>
+
+<script>
+    Livewire.on('fileChoosen', () => {
+        let inputField = document.getElementById('image')
+        let file = inputField.files[0]
+        let reader = new FileReader()
+        reader.onloadend = () => {
+            Livewire.emit('fileUploaded', reader.result)
+        }
+        reader.readAsDataURL(file)
+    })
+    </script>

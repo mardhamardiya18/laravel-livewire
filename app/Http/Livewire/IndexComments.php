@@ -5,12 +5,22 @@ namespace App\Http\Livewire;
 use App\Models\Comment;
 use Carbon\Carbon;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class IndexComments extends Component
 {
-    public $comments;
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
 
     public $inputComment;
+    public $image;
+
+    protected $listeners = ['fileUploaded' => 'handleFileUpload'];
+
+    public function handleFileUpload($imageData)
+    {
+        $this->image = $imageData;
+    }
 
 
     // ==== validation =====
@@ -31,14 +41,6 @@ class IndexComments extends Component
     }
     // ==============================
 
-
-    // ==== show comment ==========
-    function mount()
-    {
-        $getComments = Comment::latest()->get();
-        $this->comments = $getComments;
-    }
-
     // ==== Add comment ==========
     function addComment()
     {
@@ -50,8 +52,6 @@ class IndexComments extends Component
                 'user_id' => 1
             ]
         );
-
-        $this->comments->prepend($createComment);
         $this->dispatchBrowserEvent('swal:modal', [
             'type' => 'success',
             'title' => 'Comment was posted! 👍',
@@ -66,7 +66,6 @@ class IndexComments extends Component
     {
         $getidComment = Comment::find($idComment);
         $getidComment->delete();
-        $this->comments = $this->comments->except($idComment);
         $this->dispatchBrowserEvent('swal:modal', [
             'type' => 'success',
             'title' => 'Comment was deleted! 👍',
@@ -76,6 +75,8 @@ class IndexComments extends Component
 
     public function render()
     {
-        return view('livewire.index-comments');
+        return view('livewire.index-comments', [
+            'comments' => Comment::latest()->paginate(3)
+        ]);
     }
 }
