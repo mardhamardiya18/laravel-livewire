@@ -9,9 +9,27 @@
     <title>Comment Livewire</title>
     @livewireStyles
     @livewireScripts
+    <script src="{{asset('js/app.js')}}"></script>
 </head>
 <body>
-    @livewire('index-comments')
+
+  <nav class="nav d-flex justify-content-center">
+    <a class="nav-link" href="/">DATA</a>
+    <a class="nav-link " href="/comment">COMMENT</a>
+  </nav>
+
+    <div class="container pt-5">
+      <div class="row">
+        <div class="col-md-5">
+          @livewire('tikets')
+        </div>
+        <div class="col-md-7">
+          @livewire('index-comments')
+        </div>
+      </div>
+    </div>
+   
+    
 
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

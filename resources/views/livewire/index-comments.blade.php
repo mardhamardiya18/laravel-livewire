@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container">
    <h3 class="mb-5">Comments App</h3>
 
     <section class="d-flex flex-column">
@@ -14,6 +14,7 @@
             </div>
             <div class="col-sm-2">
                 <button type="submit" class="btn btn-primary btn-lg">Send</button>
+               
             </div>
           </div>
         
@@ -34,6 +35,9 @@
         <p>
             {{$comment->body}}
         </p>
+        @if ($comment->image)
+            <img src="{{$comment->imagePath}}" width="200" alt="">
+        @endif
     </div>    
    </div>
    @endforeach
